@@ -1,0 +1,7 @@
+kafka
+*.tgz
+*.jar
+*.log
+*.pid
+*.out
+*.lock
