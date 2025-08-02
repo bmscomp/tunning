@@ -65,13 +65,24 @@ run:
 	@if [ ! -f $(KAFKA_DIR)/.formatted ]; then \
 		echo "Formatting Kafka storage..."; \
 		KAFKA_CLUSTER_ID=$$($(KAFKA_DIR)/bin/kafka-storage.sh random-uuid); \
-		$(KAFKA_DIR)/bin/kafka-storage.sh format --standalone -t $$KAFKA_CLUSTER_ID -c $(KAFKA_DIR)/config/server.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format --standalone -t $$KAFKA_CLUSTER_ID -c config/server.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format -t $$KAFKA_CLUSTER_ID -c config/michael.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format -t $$KAFKA_CLUSTER_ID -c config/gabriel.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format -t $$KAFKA_CLUSTER_ID -c config/steven.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format -t $$KAFKA_CLUSTER_ID -c config/seth.properties; \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format -t $$KAFKA_CLUSTER_ID -c config/seraphia.properties; \
 		touch $(KAFKA_DIR)/.formatted; \
 	else \
 		echo "Kafka already formatted."; \
 	fi
 	@echo "Starting Kafka server..."
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/server.properties
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/server.properties &; \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/michael.properties &; \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/gabriel.properties &; \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/steven.properties &; \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/seth.properties &; \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/seraphia.properties &; \
+	
 
 # Target to run producer performance test
 perf-producer:
