@@ -76,12 +76,12 @@ run:
 		echo "Kafka already formatted."; \
 	fi
 	@echo "Starting Kafka server..."
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/server.properties & \
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/michael.properties & \
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/gabriel.properties & \
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/steven.properties & \
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/seth.properties & \
-	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/seraphia.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/server.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/michael.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/gabriel.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/steven.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/seth.properties & \
+	$(KAFKA_DIR)/bin/kafka-server-start.sh config/seraphia.properties & \
 	
 
 # Target to run producer performance test
