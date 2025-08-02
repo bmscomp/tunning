@@ -55,6 +55,12 @@ clean:
 	@echo "Cleaning up..."
 	@rm -f $(KAFKA_DIST).tgz
 	@rm -rf $(KAFKA_DIR)
+	@rm -rf /tmp/kraft-server-logs
+	@rm -rf /tmp/kraft-michael-logs
+	@rm -rf /tmp/kraft-gabriel-logs
+	@rm -rf /tmp/kraft-steven-logs
+	@rm -rf /tmp/kraft-seth-logs
+	@rm -rf /tmp/kraft-seraphia-logs
 	@rm -f .formatted
 
 # Target to run kafka
