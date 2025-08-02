@@ -6,7 +6,7 @@ KAFKA_DIST=kafka_$(KAFKA_SCALA_VERSION)-$(KAFKA_VERSION)
 KAFKA_URL=https://downloads.apache.org/kafka/$(KAFKA_VERSION)/$(KAFKA_DIST).tgz
 KAFKA_DIR=kafka
 
-.PHONY: all clean kafka download extract perms help
+.PHONY: all clean kafka download extract perms help run
 
 all: kafka
 
@@ -20,6 +20,7 @@ help:
 	@echo "  perms      - Set permissions on the Kafka directory."
 	@echo "  kafka      - Run all steps: download, extract, perms."
 	@echo "  clean      - Remove downloaded and extracted files."
+	@echo "  run        - Run Kafka."
 
 # Target to download, extract and set permissions
 kafka: download extract perms
@@ -54,3 +55,30 @@ clean:
 	@echo "Cleaning up..."
 	@rm -f $(KAFKA_DIST).tgz
 	@rm -rf $(KAFKA_DIR)
+	@rm -f .formatted
+
+# Target to run kafka
+.PHONY: all clean kafka download extract perms help run perf-producer perf-consumer
+
+run:
+	@echo "Checking if Kafka is formatted..."
+	@if [ ! -f $(KAFKA_DIR)/.formatted ]; then \
+		echo "Formatting Kafka storage..."; \
+		KAFKA_CLUSTER_ID=$$($(KAFKA_DIR)/bin/kafka-storage.sh random-uuid); \
+		$(KAFKA_DIR)/bin/kafka-storage.sh format --standalone -t $$KAFKA_CLUSTER_ID -c $(KAFKA_DIR)/config/server.properties; \
+		touch $(KAFKA_DIR)/.formatted; \
+	else \
+		echo "Kafka already formatted."; \
+	fi
+	@echo "Starting Kafka server..."
+	$(KAFKA_DIR)/bin/kafka-server-start.sh $(KAFKA_DIR)/config/server.properties
+
+# Target to run producer performance test
+perf-producer:
+	@echo "Running producer performance test..."
+	@./performance/producer-performance.sh
+
+# Target to run consumer performance test
+perf-consumer:
+	@echo "Running consumer performance test..."
+	@./performance/consumer-performance.sh
